@@ -4,17 +4,25 @@
  */
 package quanlythietbi;
 
+import java.awt.Panel;
+import javax.swing.JPanel;
+
 /**
  *
  * @author OS
  */
 public class HomePage extends javax.swing.JFrame {
 
+    private JPanel ChildPanel;
     /**
      * Creates new form HomePage
      */
     public HomePage() {
         initComponents();
+        ChildPanel = new ThemThietBi();
+        pnMain.removeAll();
+        pnMain.add(ChildPanel);
+        pnMain.validate();
     }
 
     /**
@@ -39,27 +47,7 @@ public class HomePage extends javax.swing.JFrame {
         btnQuanLyThietBi = new javax.swing.JButton();
         btnThongKe = new javax.swing.JButton();
         btnHoaDon = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        layerPane_ThemThietBi = new javax.swing.JLayeredPane();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        txtTenThietBi = new javax.swing.JTextField();
-        txtSoLuong = new javax.swing.JTextField();
-        txtGia = new javax.swing.JTextField();
-        cboThuongHieu = new javax.swing.JComboBox<>();
-        cbbLoaiThietBi = new javax.swing.JComboBox<>();
-        cbbNhaCungCap = new javax.swing.JComboBox<>();
-        jLabel11 = new javax.swing.JLabel();
-        cbbKho = new javax.swing.JComboBox<>();
-        btnThemThietBi = new javax.swing.JButton();
+        pnMain = new javax.swing.JPanel();
 
         jLabel3.setText("jLabel3");
 
@@ -171,6 +159,11 @@ public class HomePage extends javax.swing.JFrame {
         btnThongKe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/ThongKe.png"))); // NOI18N
         btnThongKe.setText("Thống kê");
         btnThongKe.setBorder(null);
+        btnThongKe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThongKeActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnThongKe);
 
         btnHoaDon.setBackground(new java.awt.Color(0, 102, 102));
@@ -188,161 +181,9 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel2.add(jPanel5, java.awt.BorderLayout.LINE_START);
 
-        jPanel6.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel6.setLayout(new java.awt.BorderLayout());
-
-        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel2.setText("Quản lý thiết bị > Thêm thiết bị");
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(552, Short.MAX_VALUE))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
-        );
-
-        jPanel6.add(jPanel7, java.awt.BorderLayout.PAGE_START);
-
-        layerPane_ThemThietBi.setBackground(new java.awt.Color(0, 204, 204));
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("THÊM THIẾT BỊ MỚI");
-
-        jLabel5.setText("Tên thiết bị:");
-
-        jLabel6.setText("Thương hiệu:");
-
-        jLabel7.setText("Loại thiết bi:");
-
-        jLabel8.setText("Số lượng:");
-
-        jLabel9.setText("Giá:");
-
-        jLabel10.setText("Nhà cung cấp:");
-
-        cboThuongHieu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        cbbLoaiThietBi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        cbbNhaCungCap.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel11.setText("Kho:");
-
-        cbbKho.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        btnThemThietBi.setBackground(new java.awt.Color(0, 153, 153));
-        btnThemThietBi.setText("Thêm");
-
-        layerPane_ThemThietBi.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(txtTenThietBi, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(txtSoLuong, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(txtGia, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(cboThuongHieu, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(cbbLoaiThietBi, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(cbbNhaCungCap, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(jLabel11, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(cbbKho, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        layerPane_ThemThietBi.setLayer(btnThemThietBi, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout layerPane_ThemThietBiLayout = new javax.swing.GroupLayout(layerPane_ThemThietBi);
-        layerPane_ThemThietBi.setLayout(layerPane_ThemThietBiLayout);
-        layerPane_ThemThietBiLayout.setHorizontalGroup(
-            layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layerPane_ThemThietBiLayout.createSequentialGroup()
-                .addGap(135, 135, 135)
-                .addGroup(layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                .addGroup(layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(cbbKho, 0, 120, Short.MAX_VALUE)
-                    .addComponent(txtTenThietBi)
-                    .addComponent(cbbLoaiThietBi, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbbNhaCungCap, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                .addGroup(layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(30, 30, 30)
-                .addGroup(layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtSoLuong)
-                    .addComponent(txtGia)
-                    .addComponent(cboThuongHieu, 0, 120, Short.MAX_VALUE))
-                .addGap(147, 147, 147))
-            .addGroup(layerPane_ThemThietBiLayout.createSequentialGroup()
-                .addGroup(layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layerPane_ThemThietBiLayout.createSequentialGroup()
-                        .addGap(322, 322, 322)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layerPane_ThemThietBiLayout.createSequentialGroup()
-                        .addGap(339, 339, 339)
-                        .addComponent(btnThemThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layerPane_ThemThietBiLayout.setVerticalGroup(
-            layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layerPane_ThemThietBiLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addGroup(layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(txtTenThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbbLoaiThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(txtGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbbNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(layerPane_ThemThietBiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(cbbKho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
-                .addComponent(btnThemThietBi)
-                .addContainerGap(100, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(layerPane_ThemThietBi)
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(layerPane_ThemThietBi)
-        );
-
-        jPanel6.add(jPanel9, java.awt.BorderLayout.CENTER);
-
-        jPanel2.add(jPanel6, java.awt.BorderLayout.CENTER);
+        pnMain.setBackground(new java.awt.Color(204, 204, 204));
+        pnMain.setLayout(new java.awt.BorderLayout());
+        jPanel2.add(pnMain, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -355,6 +196,11 @@ public class HomePage extends javax.swing.JFrame {
 
     private void btnQuanLyThietBiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThietBiActionPerformed
         // TODO add your handling code here:
+        ChildPanel = new ThemThietBi();
+        pnMain.removeAll();
+        pnMain.add(ChildPanel);
+        pnMain.validate();
+        
     }//GEN-LAST:event_btnQuanLyThietBiActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
@@ -363,7 +209,19 @@ public class HomePage extends javax.swing.JFrame {
 
     private void btnHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoaDonActionPerformed
         // TODO add your handling code here:
+        ChildPanel = new HoaDon();
+        pnMain.removeAll();
+        pnMain.add(ChildPanel);
+        pnMain.validate();
     }//GEN-LAST:event_btnHoaDonActionPerformed
+
+    private void btnThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongKeActionPerformed
+        // TODO add your handling code here:
+        ChildPanel = new ThongKe();
+        pnMain.removeAll();
+        pnMain.add(ChildPanel);
+        pnMain.validate();
+    }//GEN-LAST:event_btnThongKeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -404,36 +262,16 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JButton btnHoaDon;
     private javax.swing.JButton btnProfile;
     private javax.swing.JButton btnQuanLyThietBi;
-    private javax.swing.JButton btnThemThietBi;
     private javax.swing.JButton btnThongKe;
     private javax.swing.JButton btnTimKiem;
-    private javax.swing.JComboBox<String> cbbKho;
-    private javax.swing.JComboBox<String> cbbLoaiThietBi;
-    private javax.swing.JComboBox<String> cbbNhaCungCap;
-    private javax.swing.JComboBox<String> cboThuongHieu;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JLayeredPane layerPane_ThemThietBi;
-    private javax.swing.JTextField txtGia;
-    private javax.swing.JTextField txtSoLuong;
-    private javax.swing.JTextField txtTenThietBi;
+    private javax.swing.JPanel pnMain;
     // End of variables declaration//GEN-END:variables
 }
