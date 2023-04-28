@@ -19,12 +19,12 @@ public class DBContext {
     }   
     /*Insert your other code right after this comment*/
     /*Change/update information of your database connection, DO NOT change name of instance variables in this class*/
-    private final String serverName = "DESKTOP-R3P0J15";
-    private final String dbName = "zay";
+    private final String serverName = "MSI";
+    private final String dbName = "QuanlyThietBi";
     private final String portNumber = "1433";
     private final String instance="";//LEAVE THIS ONE EMPTY IF YOUR SQL IS A SINGLE INSTANCE
     private final String userID = "sa";
-    private final String password = "123456";
+    private final String password = "1234";
     private final String IntegratedSecurity = "IntegratedSecurity=false";
     private final String Encrypt = "Encrypt=false";
     
