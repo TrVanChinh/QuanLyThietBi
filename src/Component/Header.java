@@ -4,6 +4,7 @@ package Component;
 
 
 import Event.EventClose;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,7 +14,7 @@ import javax.swing.JFrame;
 public class Header extends javax.swing.JPanel {
 
     private EventClose event;
-
+    
     public void addEventClose(EventClose event) {
         this.event = event;
     }
@@ -42,11 +43,21 @@ public class Header extends javax.swing.JPanel {
             }
         });
 
+        lbClose.setBackground(new java.awt.Color(255, 255, 255));
         lbClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/close.png"))); // NOI18N
         lbClose.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        lbClose.setOpaque(true);
+        lbClose.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                lbCloseMouseMoved(evt);
+            }
+        });
         lbClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbCloseMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbCloseMouseExited(evt);
             }
         });
 
@@ -78,6 +89,15 @@ public class Header extends javax.swing.JPanel {
     private void lbCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCloseMouseClicked
         event.selected(1);
     }//GEN-LAST:event_lbCloseMouseClicked
+
+    private void lbCloseMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCloseMouseMoved
+        lbClose.setBackground(Color.LIGHT_GRAY);
+        
+    }//GEN-LAST:event_lbCloseMouseMoved
+
+    private void lbCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCloseMouseExited
+       lbClose.setBackground(Color.WHITE);
+    }//GEN-LAST:event_lbCloseMouseExited
 
     @Override
     protected void paintComponent(Graphics g) {

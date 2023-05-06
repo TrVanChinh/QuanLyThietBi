@@ -1,6 +1,8 @@
 
 package Component;
 
+import Event.EventClose;
+import Event.EventMenuSelected;
 import Model.Model_Card;
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -9,7 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 public class Card extends javax.swing.JPanel {
-
+    
     public Color getColor1() {
         return color1;
     }

@@ -12,12 +12,14 @@ import Form.Form6;
 import Form.Form_Home;
 import java.awt.Color;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 public class Main extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
      */
+    JComponent form_home = new Form_Home();
     public Main() {
         initComponents();
         setBackground(new Color(0,0,0,0));
@@ -27,7 +29,7 @@ public class Main extends javax.swing.JFrame {
             public void selected(int index) {
                 //System.out.println("Selected index:"+index);
                 if (index== 0) {
-                    setForm(new Form_Home());
+                    setForm(form_home);
                 }else if (index == 1) {
                     setForm(new Form1());
                 }else if (index == 2) {
@@ -43,7 +45,7 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         });
-        setForm(new Form_Home());
+        setForm(form_home);
         
         header1.addEventClose(new EventClose() {
             @Override
@@ -53,6 +55,9 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         });
+        
+        
+        
     }
     private void Close(){
         this.dispose();
