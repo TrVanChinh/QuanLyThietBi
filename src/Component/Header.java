@@ -1,6 +1,9 @@
 
 package Component;
 
+
+
+import Event.EventClose;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,6 +12,11 @@ import javax.swing.JFrame;
 
 public class Header extends javax.swing.JPanel {
 
+    private EventClose event;
+
+    public void addEventClose(EventClose event) {
+        this.event = event;
+    }
     private Frame frame;
     public Header() {
         initComponents();
@@ -21,7 +29,7 @@ public class Header extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         searchText1 = new Swing.SearchText();
-        jLabel2 = new javax.swing.JLabel();
+        lbClose = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(370, 48));
@@ -34,11 +42,11 @@ public class Header extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/close.png"))); // NOI18N
-        jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/close.png"))); // NOI18N
+        lbClose.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        lbClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                lbCloseMouseClicked(evt);
             }
         });
 
@@ -52,13 +60,13 @@ public class Header extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchText1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
+                .addComponent(lbClose)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbClose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(searchText1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -67,9 +75,9 @@ public class Header extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchText1ActionPerformed
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        
-    }//GEN-LAST:event_jLabel2MouseClicked
+    private void lbCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCloseMouseClicked
+        event.selected(1);
+    }//GEN-LAST:event_lbCloseMouseClicked
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -84,7 +92,7 @@ public class Header extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lbClose;
     private Swing.SearchText searchText1;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,8 +1,17 @@
 
-package Swing;
+package Main;
 
+import Event.EventClose;
+import Event.EventMenuSelected;
+import Form.Form1;
+import Form.Form2;
+import Form.Form3;
+import Form.Form4;
+import Form.Form5;
+import Form.Form6;
+import Form.Form_Home;
 import java.awt.Color;
-import javax.swing.JScrollBar;
+import javax.swing.JComponent;
 
 public class Main extends javax.swing.JFrame {
 
@@ -12,49 +21,86 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         setBackground(new Color(0,0,0,0));
-        menu1.initMoving(Main.this);
-        sp.setVerticalScrollBar(new ScrollBar());
+        menu.initMoving(Main.this);
+        menu.addEventMenuSelected(new EventMenuSelected() {
+            @Override
+            public void selected(int index) {
+                //System.out.println("Selected index:"+index);
+                if (index== 0) {
+                    setForm(new Form_Home());
+                }else if (index == 1) {
+                    setForm(new Form1());
+                }else if (index == 2) {
+                    setForm(new Form2());
+                }else if (index == 3) {
+                    setForm(new Form3());
+                }else if (index == 4) {
+                    setForm(new Form4());
+                }else if (index == 6) {
+                    setForm(new Form5());
+                }else if (index == 7) {
+                    setForm(new Form6());
+                }
+            }
+        });
+        setForm(new Form_Home());
+        
+        header1.addEventClose(new EventClose() {
+            @Override
+            public void selected(int index) {
+                if (index == 1) {
+                    Close();
+                }
+            }
+        });
     }
-
+    private void Close(){
+        this.dispose();
+    }
+    private void setForm(JComponent com){
+        mainPanel.removeAll();
+        mainPanel.add(com);
+        mainPanel.repaint();
+        mainPanel.validate();
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         panelBorder1 = new Swing.PanelBorder();
-        menu1 = new Component.Menu();
+        menu = new Component.Menu();
         header1 = new Component.Header();
-        sp = new javax.swing.JScrollPane();
-        form_Home2 = new Form.Form_Home();
+        mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
         panelBorder1.setBackground(new java.awt.Color(242, 241, 241));
 
-        sp.setBackground(new java.awt.Color(255, 255, 255));
-        sp.setBorder(null);
-        sp.setViewportView(form_Home2);
+        mainPanel.setOpaque(false);
+        mainPanel.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addComponent(menu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(header1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(header1, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(6, 6, 6)
+                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addComponent(header1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -106,10 +152,9 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Form.Form_Home form_Home2;
     private Component.Header header1;
-    private Component.Menu menu1;
+    private javax.swing.JPanel mainPanel;
+    private Component.Menu menu;
     private Swing.PanelBorder panelBorder1;
-    private javax.swing.JScrollPane sp;
     // End of variables declaration//GEN-END:variables
 }
