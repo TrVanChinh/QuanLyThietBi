@@ -2,6 +2,7 @@
 package Model;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 public class Model_Card {
 
@@ -43,7 +44,11 @@ public class Model_Card {
         this.values = values;
         this.description = description;
     }
-
+    
+    public Icon toIcon(){
+        return new ImageIcon(getClass().getResource("/assets/"+icon +".png"));
+    }
+    
     public Model_Card() {
     }
     

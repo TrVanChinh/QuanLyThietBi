@@ -24,13 +24,15 @@ public class Menu extends javax.swing.JPanel {
 
     private void init(){
         listMenu1.addItem(new Model_Menu("main", "Quản lý thiết bị", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("main", "Quản lý Tài Khoản", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("statistics", "Thống kê", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("document", "Hoá đơn", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("letter", "Duyệt", Model_Menu.MenuType.MENU));
         
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMTPY));
         
-        listMenu1.addItem(new Model_Menu("setting", "Cài đặt", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("setting", "Tài khoản", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("setting", "Đăng xuất", Model_Menu.MenuType.MENU));
         
     }
     
