@@ -47,7 +47,11 @@ public class ThongKeDaoImpl implements ThongKeDao{
         
         try {
             Connection con = DBContext.JDBCConnection();
-            String sql  ="Select  ngayXuat, sum(soLuong) as soLuong from ChiTietPhieuXuat group by ngayXuat";
+//            String sql  ="Select  ngayXuat, sum(soLuong) as soLuong from ChiTietPhieuXuat group by ngayXuat";
+            String sql  ="SELECT PhieuXuat.ngayXuat, SUM(ChiTietPhieuXuat.soLuong) AS soLuong \n" +
+                                "FROM ChiTietPhieuXuat \n" +
+                                "JOIN PhieuXuat ON ChiTietPhieuXuat.maPX = PhieuXuat.maPX \n" +
+                                "GROUP BY PhieuXuat.ngayXuat";
             List<HoaDonXuatBean> list = new ArrayList<>();
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs  = ps.executeQuery();
