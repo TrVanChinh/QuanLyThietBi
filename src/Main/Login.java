@@ -214,12 +214,9 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_lbLoginMouseExited
 
     private void lbLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLoginMouseClicked
-        
-        JFrame FramLogin = new JFrame("Login");
-        JFrame FramMain = new JFrame("Main");
-        FramLogin.setVisible(false);
-        FramMain.setVisible(true);
-        
+        Main main = new Main();
+        main.setVisible(true );
+        this.dispose();
     }//GEN-LAST:event_lbLoginMouseClicked
 
     /**

@@ -3,13 +3,13 @@ package Main;
 
 import Event.EventClose;
 import Event.EventMenuSelected;
-import Form.Form1;
 import Form.Form2;
 import Form.Form3;
 import Form.Form4;
 import Form.Form5;
 import Form.Form6;
 import Form.Form_Home;
+import Form.Form_MAccount;
 import java.awt.Color;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -31,7 +31,7 @@ public class Main extends javax.swing.JFrame {
                 if (index== 0) {
                     setForm(form_home);
                 }else if (index == 1) {
-                    setForm(new Form1());
+                    setForm(new Form_MAccount());
                 }else if (index == 2) {
                     setForm(new Form2());
                 }else if (index == 3) {
@@ -41,7 +41,9 @@ public class Main extends javax.swing.JFrame {
                 }else if (index == 6) {
                     setForm(new Form5());
                 }else if (index == 7) {
-                    setForm(new Form6());
+                    Close();
+                    Login login = new Login();
+                    login.setVisible(true);
                 }
             }
         });
