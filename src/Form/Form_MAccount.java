@@ -27,9 +27,9 @@ public class Form_MAccount extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         sp.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         sp.getViewport().setBackground(Color.WHITE);
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/setting.png")), "Thêm thiết bị", "", ""));
-        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/setting.png")), "Sửa thiết bị", "", ""));
-        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/setting.png")), "Xoá thiết bị", "", ""));
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/add.png")), "Thêm thiết bị", "", ""));
+        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/edit.png")), "Sửa thiết bị", "", ""));
+        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/delete.png")), "Xoá thiết bị", "", ""));
         
         sp.setVerticalScrollBar(new ScrollBar());
         
@@ -90,6 +90,7 @@ public class Form_MAccount extends javax.swing.JPanel {
         Add_giaNhap_TF1 = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         Add_TenTB_TF3 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(242, 241, 241));
         setDoubleBuffered(false);
@@ -491,23 +492,29 @@ public class Form_MAccount extends javax.swing.JPanel {
 
         hidePanel.add(panelBorder3, "card2");
 
+        jLabel10.setForeground(new java.awt.Color(127, 127, 127));
+        jLabel10.setText("Quản lý Tài Khoản");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(hidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(hidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -558,6 +565,7 @@ public class Form_MAccount extends javax.swing.JPanel {
     private Component.Card card3;
     private javax.swing.JPanel hidePanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;

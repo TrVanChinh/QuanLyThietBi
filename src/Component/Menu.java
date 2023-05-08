@@ -39,7 +39,7 @@ public class Menu extends javax.swing.JPanel {
         
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMTPY));
         
-        listMenu1.addItem(new Model_Menu("setting", "Tài khoản", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("account", "Tài khoản", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("setting", "Đăng xuất", Model_Menu.MenuType.MENU));
         
     }
