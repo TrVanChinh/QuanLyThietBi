@@ -50,5 +50,13 @@ public class Table extends JTable{
          DefaultTableModel model =(DefaultTableModel) getModel();
          model.addRow(row);
     }
-    
+    public void deleteAllRow(){
+         DefaultTableModel model =(DefaultTableModel) getModel();
+         System.out.println(model.getRowCount());
+         if(model.getRowCount()>0){
+             for(int i=0;i <= model.getRowCount();i++){
+             model.removeRow(i);
+         }
+         }
+    }
 }

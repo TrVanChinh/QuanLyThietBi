@@ -1,40 +1,28 @@
 
 package Form;
 
-import Connection.DBContext;
 import Event.EventClickButton;
 import Event.EventClose;
 import Model.Model_Card;
 import Model.PhieuNhap;
-import Model.ThietBi;
 import Swing.ScrollBar;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
+import serviece.crud;
 
-public class Form_Home extends javax.swing.JPanel {
+public class Form_PN extends javax.swing.JPanel {
     private EventClose event;
     
     public void addEventClose(EventClose event) {
         this.event = event;
     }
-    List<ThietBi> tbData = new ArrayList<>();
-    public Form_Home() throws Exception {
+    
+    public Form_PN() throws Exception {
         initComponents();
         
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -48,37 +36,21 @@ public class Form_Home extends javax.swing.JPanel {
         
         sp.setVerticalScrollBar(new ScrollBar());
         
-        showData();
-        loadTable();
-        updateComboboxLoaiTB();
-        updateComboboxTH();
-        updateComboboxKho();
-        addComboboxLoaiTB();
-        addComboboxTH();
-        addComboboxKho();
-    }
-    public void loadTable() throws Exception{
+        
+        List<PhieuNhap> PnDatas=crud.getALLPN();
         //Add Row Table
-        for (ThietBi tb : tbData) {          
+        for (PhieuNhap PnData : PnDatas) {          
             table.addRow(new Object[]{
-                tb.getmTB(),
-                tb.getmLTB(),
-                tb.getmTH(),
-                tb.getTenTB(),
-                tb.getDvTinh(),
-                tb.getGiaNhap(),
-                tb.getmKho(),
-                tb.getSoLuong()
+                PnData.getIndex(),
+                PnData.getId(),
+                PnData.getName(),
+                PnData.getQuantity(),
+                PnData.getDate()
             });
         }
-        table.removeAll();
-        table.repaint();
-        table.validate();
     }
-     private String data;
-    Connection conn;
-    Statement st;
-    ResultSet rs;   
+    
+        
        
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -112,9 +84,9 @@ public class Form_Home extends javax.swing.JPanel {
         Add_spHong_TF = new javax.swing.JTextField();
         Add_hsd_TF = new javax.swing.JTextField();
         Add_soLuong_TF = new javax.swing.JTextField();
-        cbbThuongHieu = new Swing.ComboBoxSuggestion();
-        cbbLoaiThietBi = new Swing.ComboBoxSuggestion();
-        cbbKho = new Swing.ComboBoxSuggestion();
+        comboBoxSuggestion1 = new Swing.ComboBoxSuggestion();
+        comboBoxSuggestion2 = new Swing.ComboBoxSuggestion();
+        comboBoxSuggestion3 = new Swing.ComboBoxSuggestion();
         header = new Swing.PanelBorder();
         jLabel2 = new javax.swing.JLabel();
         lbBack = new javax.swing.JLabel();
@@ -132,16 +104,16 @@ public class Form_Home extends javax.swing.JPanel {
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        txtCapNhat_TenThietBi = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
-        txtCapNhat_DonViTinh = new javax.swing.JTextField();
-        txtCapNhat_Gia = new javax.swing.JTextField();
+        jTextField10 = new javax.swing.JTextField();
+        jTextField11 = new javax.swing.JTextField();
         jTextField12 = new javax.swing.JTextField();
         jTextField13 = new javax.swing.JTextField();
-        txtCapNhat_SoLuong = new javax.swing.JTextField();
-        cboCapNhap_ThuongHieu = new Swing.ComboBoxSuggestion();
-        cboCapNhap_LoaiThietBi = new Swing.ComboBoxSuggestion();
-        cboCapNhap_Kho = new Swing.ComboBoxSuggestion();
+        jTextField14 = new javax.swing.JTextField();
+        comboBoxSuggestion7 = new Swing.ComboBoxSuggestion();
+        comboBoxSuggestion8 = new Swing.ComboBoxSuggestion();
+        comboBoxSuggestion9 = new Swing.ComboBoxSuggestion();
         panelBorder5 = new Swing.PanelBorder();
         jLabel14 = new javax.swing.JLabel();
         lbBack2 = new javax.swing.JLabel();
@@ -197,7 +169,7 @@ public class Form_Home extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã thiết bị", "Tên thiết bị", "Loại thiết bị", "Đơn vị tính", "Số lượng"
+                "STT", "Mã Phiếu Nhập", "Công ty nhập", "Số lượng", "Ngày nhập"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -206,6 +178,11 @@ public class Form_Home extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
             }
         });
         sp.setViewportView(table);
@@ -281,11 +258,11 @@ public class Form_Home extends javax.swing.JPanel {
 
         Add_soLuong_TF.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        cbbThuongHieu.setOpaque(false);
+        comboBoxSuggestion1.setOpaque(false);
 
-        cbbLoaiThietBi.setOpaque(false);
+        comboBoxSuggestion2.setOpaque(false);
 
-        cbbKho.setOpaque(false);
+        comboBoxSuggestion3.setOpaque(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -303,9 +280,9 @@ public class Form_Home extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Add_TenTB_TF)
                     .addComponent(Add_mTB_TF, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                    .addComponent(cbbThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(cbbLoaiThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(cbbKho, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(comboBoxSuggestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(comboBoxSuggestion3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -351,10 +328,10 @@ public class Form_Home extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cbbLoaiThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboBoxSuggestion2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel10))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cbbThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel8)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -375,7 +352,7 @@ public class Form_Home extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbbKho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboBoxSuggestion3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))
                         .addGap(0, 6, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -504,10 +481,10 @@ public class Form_Home extends javax.swing.JPanel {
         jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel24.setText("Sản phẩm hỏng:");
 
-        txtCapNhat_TenThietBi.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtCapNhat_TenThietBi.addActionListener(new java.awt.event.ActionListener() {
+        jTextField2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCapNhat_TenThietBiActionPerformed(evt);
+                jTextField2ActionPerformed(evt);
             }
         });
 
@@ -518,15 +495,15 @@ public class Form_Home extends javax.swing.JPanel {
             }
         });
 
-        txtCapNhat_DonViTinh.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jTextField10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        txtCapNhat_Gia.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jTextField11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jTextField12.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jTextField13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        txtCapNhat_SoLuong.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jTextField14.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -542,21 +519,13 @@ public class Form_Home extends javax.swing.JPanel {
                     .addComponent(jLabel20))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtCapNhat_TenThietBi, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                    .addComponent(cboCapNhap_ThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(cboCapNhap_LoaiThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(cboCapNhap_Kho, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(jTextField9))
-                .addGap(76, 76, 76)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel24)
-                            .addComponent(jLabel23))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addComponent(jTextField13)))
+                    .addComponent(jTextField2)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                    .addComponent(comboBoxSuggestion7, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(comboBoxSuggestion8, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(comboBoxSuggestion9, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
@@ -564,14 +533,23 @@ public class Form_Home extends javax.swing.JPanel {
                             .addComponent(jLabel22))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtCapNhat_DonViTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCapNhat_Gia, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(47, 47, 47)
-                                .addComponent(txtCapNhat_SoLuong)))))
-                .addGap(99, 99, 99))
+                                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel24)
+                            .addComponent(jLabel23))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(129, 129, 129))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -581,17 +559,17 @@ public class Form_Home extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
-                            .addComponent(txtCapNhat_DonViTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
-                            .addComponent(txtCapNhat_Gia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel22)
-                                    .addComponent(txtCapNhat_SoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel24)
@@ -602,15 +580,15 @@ public class Form_Home extends javax.swing.JPanel {
                                     .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cboCapNhap_LoaiThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboBoxSuggestion8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel21))
                                 .addGap(0, 0, 0)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cboCapNhap_ThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboBoxSuggestion7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel19))
                                 .addGap(0, 0, 0)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cboCapNhap_Kho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboBoxSuggestion9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel20)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -618,7 +596,7 @@ public class Form_Home extends javax.swing.JPanel {
                             .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCapNhat_TenThietBi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel16))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -659,11 +637,6 @@ public class Form_Home extends javax.swing.JPanel {
 
         panelBorder9.setBackground(new java.awt.Color(186, 123, 247));
         panelBorder9.setPreferredSize(new java.awt.Dimension(150, 45));
-        panelBorder9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelBorder9MouseClicked(evt);
-            }
-        });
 
         jLabel27.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(255, 255, 255));
@@ -714,7 +687,7 @@ public class Form_Home extends javax.swing.JPanel {
         hidePanel.add(panelBorder3, "card2");
 
         jLabel25.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel25.setText("Quản lý Thiết bị");
+        jLabel25.setText("Quản lý hiếu nhập");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -742,191 +715,17 @@ public class Form_Home extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-    public void showData() throws Exception {
-        try {
-            table.deleteAllRow();
-            String[] arr = { "mTB","mLTB","mTH","tenTB","dvTinh","giaNhap","mKho","soLuong"};
-            DefaultTableModel model = new DefaultTableModel(arr,0) {
-                @Override//Override lại phương thức isCellEditable
-                public boolean isCellEditable(int row, int column) {
-                    return false;//Trả về false không cho edit.
-                }
-                };
-            DBContext db = new DBContext();
-            conn = db.getConnection();
 
-            String query = "SELECT *FROM ThietBi";
-            PreparedStatement ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
-            int i = 1;
-            while (rs.next()) {
-                ThietBi thietBi = new ThietBi();
-                thietBi.setmTB(rs.getString("mTB"));
-                thietBi.setmLTB(rs.getString("mLTB"));
-                thietBi.setmTH(rs.getString("mTH"));
-                thietBi.setTenTB(rs.getString("tenTB"));
-                thietBi.setDvTinh(rs.getString("dvTinh"));
-                thietBi.setGiaNhap(rs.getString("giaNhap"));
-                thietBi.setmKho(rs.getString("mKho"));
-                thietBi.setSoLuong(rs.getString("soLuong"));
-                tbData.add(thietBi);
-                i++;
-            }
-            
-            table.setModel(model);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-    public void updateComboboxLoaiTB()throws Exception{
-        DBContext db = new DBContext();
-        conn = db.getConnection();
-        String sql = "SELECT * from LoaiThietBi";
-       
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()) {
-                cboCapNhap_LoaiThietBi.addItem(rs.getString("tenLTB"));
-            }
-        } catch (Exception e) {
-        }
-    }
-    
-    public void updateComboboxTH()throws Exception{
-        DBContext db = new DBContext();
-        conn = db.getConnection();
-        String sql = "SELECT * from ThuongHieu";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()) {
-                cboCapNhap_ThuongHieu.addItem(rs.getString("tenLTH"));
-            }
-        } catch (Exception e) {
-        }
-    }
-    
-    
-    public void updateComboboxKho()throws Exception{
-        DBContext db = new DBContext();
-        conn = db.getConnection();
-        String sql = "SELECT * from kho";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()) {
-                cboCapNhap_Kho.addItem(rs.getString("tenKho"));
-            }
-        } catch (Exception e) {
-        }
-    }
-    public void addComboboxLoaiTB()throws Exception{
-        DBContext db = new DBContext();
-        conn = db.getConnection();
-        String sql = "SELECT * from LoaiThietBi";
-       
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()) {
-                cbbLoaiThietBi.addItem(rs.getString("tenLTB"));
-            }
-        } catch (Exception e) {
-        }
-    }
-    
-    public void addComboboxTH()throws Exception{
-        DBContext db = new DBContext();
-        conn = db.getConnection();
-        String sql = "SELECT * from ThuongHieu";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()) {
-                cbbThuongHieu.addItem(rs.getString("tenLTH"));
-            }
-        } catch (Exception e) {
-        }
-    }
-    
-    
-    public void addComboboxKho()throws Exception{
-        DBContext db = new DBContext();
-        conn = db.getConnection();
-        String sql = "SELECT * from kho";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()) {
-                cbbKho.addItem(rs.getString("tenKho"));
-            }
-        } catch (Exception e) {
-        }
-    }
-    private void showDataUpdateForm(String idc)throws Exception{
-        try {
-            DBContext db = new DBContext();
-            conn = db.getConnection();
-            //String sql1 = "SELECT * FROM ThietBi where mTB = '" + idc + "'";
-            String sql = "select  *\n" +
-                            "from ThietBi as tb\n" +
-                            "inner join LoaiThietBi as ltb\n" +
-                            "	on tb.mLTB = ltb.mLTB\n" +
-                            "inner join kho as k \n" +
-                            "	on tb.mKho = k.mKho\n" +
-                            "inner join ThuongHieu as th\n" +
-                            "	on tb.mTH = th.mTH\n" +
-                            "where tb.mTB = '" + idc + "'" ;
-            
-            PreparedStatement ps = conn.prepareStatement(sql);
-            
-            
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                txtCapNhat_TenThietBi.setText(rs.getString("tenTB"));
-                txtCapNhat_SoLuong.setText(rs.getString("soLuong"));
-                txtCapNhat_Gia.setText(rs.getString("giaNhap"));
-                txtCapNhat_DonViTinh.setText(rs.getString("dvTinh"));
-                cboCapNhap_LoaiThietBi.setSelectedItem(rs.getString("tenLTB"));
-                cboCapNhap_ThuongHieu.setSelectedItem(rs.getString("tenLTH"));
-                cboCapNhap_Kho.setSelectedItem(rs.getString("tenKho"));
-            }
-            conn.close();
-        } catch (SQLException ex) {
-        }
-    }
     private void card1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_card1MouseClicked
-        
         CardLayout cardLayout = (CardLayout) hidePanel.getLayout();
         cardLayout.addLayoutComponent(panelBorder2, "2");
         cardLayout.show(hidePanel,"2");
     }//GEN-LAST:event_card1MouseClicked
 
     private void card2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_card2MouseClicked
-        if (table.getSelectedRow()==-1) {
-            JOptionPane.showMessageDialog(this, "Please Select Video","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else{
-            int position = table.getSelectedRow();
-            data = table.getModel().getValueAt(position, 0).toString();
-            try {
-                showDataUpdateForm(data);
-            } catch (Exception ex) {
-                
-            }            
-         
         CardLayout cardLayout = (CardLayout) hidePanel.getLayout();
         cardLayout.addLayoutComponent(panelBorder3, "3");
         cardLayout.show(hidePanel,"3");
-        }
-        
-        
     }//GEN-LAST:event_card2MouseClicked
 
     private void card3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_card3MouseClicked
@@ -945,46 +744,20 @@ public class Form_Home extends javax.swing.JPanel {
         cardLayout.show(hidePanel,"1");
     }//GEN-LAST:event_lbBack2MouseClicked
 
-    private void txtCapNhat_TenThietBiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCapNhat_TenThietBiActionPerformed
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCapNhat_TenThietBiActionPerformed
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9ActionPerformed
 
-    private void panelBorder9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBorder9MouseClicked
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         // TODO add your handling code here:
-        try {
-            DBContext db = new DBContext();
-            conn = db.getConnection();
-            String sql = "UPDATE ThietBi\n" +
-             "SET tenTB = ?, soLuong = ?, giaNhap = ?, dvTinh = ?," +
-             "mLTB = (select mLTB from LoaiThietBi where tenLTB = ?), " +
-             "mKho = (select mKho from kho where tenKho = ?), " +
-             "mTH =  (select mTH from ThuongHieu where tenLTH = ?) " +
-             "WHERE mTB = ?";          
-            
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, txtCapNhat_TenThietBi.getText());
-            ps.setString(2, txtCapNhat_SoLuong.getText());
-            ps.setString(3, txtCapNhat_Gia.getText());
-            ps.setString(4, txtCapNhat_DonViTinh.getText());
-            ps.setString(5, (String) cboCapNhap_LoaiThietBi.getSelectedItem());
-            ps.setString(6, (String) cboCapNhap_Kho.getSelectedItem());
-            ps.setString(7, (String) cboCapNhap_ThuongHieu.getSelectedItem());
-            ps.setString(8, data); 
-
-            ps.execute();
-
-            CardLayout cardLayout = (CardLayout) hidePanel.getLayout();
-            cardLayout.addLayoutComponent(panelBorder1, "1");
-            cardLayout.show(hidePanel,"1");
-            
-        } catch (Exception ex) {
-        } 
-        
-    }//GEN-LAST:event_panelBorder9MouseClicked
+        //int row = table.getSelectedRow();
+        //String mPN = table.getValueAt(row, 1).toString();
+        //System.out.println(mPN);
+    }//GEN-LAST:event_tableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -999,12 +772,12 @@ public class Form_Home extends javax.swing.JPanel {
     private Component.Card card1;
     private Component.Card card2;
     private Component.Card card3;
-    private Swing.ComboBoxSuggestion cbbKho;
-    private Swing.ComboBoxSuggestion cbbLoaiThietBi;
-    private Swing.ComboBoxSuggestion cbbThuongHieu;
-    private Swing.ComboBoxSuggestion cboCapNhap_Kho;
-    private Swing.ComboBoxSuggestion cboCapNhap_LoaiThietBi;
-    private Swing.ComboBoxSuggestion cboCapNhap_ThuongHieu;
+    private Swing.ComboBoxSuggestion comboBoxSuggestion1;
+    private Swing.ComboBoxSuggestion comboBoxSuggestion2;
+    private Swing.ComboBoxSuggestion comboBoxSuggestion3;
+    private Swing.ComboBoxSuggestion comboBoxSuggestion7;
+    private Swing.ComboBoxSuggestion comboBoxSuggestion8;
+    private Swing.ComboBoxSuggestion comboBoxSuggestion9;
     private Swing.PanelBorder header;
     private javax.swing.JPanel hidePanel;
     private javax.swing.JLabel jLabel1;
@@ -1035,8 +808,12 @@ public class Form_Home extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
+    private javax.swing.JTextField jTextField14;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JLabel lbBack;
     private javax.swing.JLabel lbBack2;
@@ -1048,9 +825,5 @@ public class Form_Home extends javax.swing.JPanel {
     private Swing.PanelBorder panelBorder9;
     private javax.swing.JScrollPane sp;
     private Swing.Table table;
-    private javax.swing.JTextField txtCapNhat_DonViTinh;
-    private javax.swing.JTextField txtCapNhat_Gia;
-    private javax.swing.JTextField txtCapNhat_SoLuong;
-    private javax.swing.JTextField txtCapNhat_TenThietBi;
     // End of variables declaration//GEN-END:variables
 }

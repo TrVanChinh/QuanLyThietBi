@@ -3,23 +3,27 @@ package Main;
 
 import Event.EventClose;
 import Event.EventMenuSelected;
-import Form.Form2;
-import Form.Form3;
+import Form.Form_PN;
 import Form.Form4;
 import Form.Form_Account;
 import Form.Form_Home;
 import Form.Form_MAccount;
+import Form.Form_Staticstic;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 public class Main extends javax.swing.JFrame {
 
-    /**
+    JComponent form_home;
+/**
      * Creates new form Main
      */
-    JComponent form_home = new Form_Home();
-    public Main() {
+        JComponent form_tk = new Form_Staticstic();
+    public Main() throws Exception {
+        this.form_home = new Form_Home();
         initComponents();
         setBackground(new Color(0,0,0,0));
         menu.initMoving(Main.this);
@@ -32,14 +36,21 @@ public class Main extends javax.swing.JFrame {
                 }else if (index == 1) {
                     setForm(new Form_MAccount());
                 }else if (index == 2) {
-                    setForm(new Form2());
+                    setForm(new Form_Staticstic());
                 }else if (index == 3) {
-                    setForm(new Form3());
+                    try {
+                        setForm(new Form_PN());
+                    } catch (Exception ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }else if (index == 4) {
                     setForm(new Form4());
-                }else if (index == 6) {
+                }else if (index == 5) {
                     setForm(new Form_Account());
+                    
                 }else if (index == 7) {
+                    setForm(new Form_Account());
+                }else if (index == 8) {
                     Close();
                     Login login = new Login();
                     login.setVisible(true);
@@ -47,7 +58,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         setForm(form_home);
-        
         header1.addEventClose(new EventClose() {
             @Override
             public void selected(int index) {
@@ -152,7 +162,11 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                try {
+                    new Main().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
