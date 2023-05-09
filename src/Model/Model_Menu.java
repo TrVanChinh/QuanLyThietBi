@@ -40,7 +40,7 @@ public class Model_Menu {
     private MenuType type;
 
     public Icon toIcon(){
-        return new ImageIcon(getClass().getResource("/assets/"+icon +".png"));
+        return new ImageIcon(getClass().getResource("/PNG/"+icon +".png"));
     }
     public static enum MenuType{
         TITLE, MENU, EMTPY

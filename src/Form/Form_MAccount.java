@@ -27,9 +27,9 @@ public class Form_MAccount extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         sp.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         sp.getViewport().setBackground(Color.WHITE);
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/add.png")), "Thêm thiết bị", "", ""));
-        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/edit.png")), "Sửa thiết bị", "", ""));
-        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/delete.png")), "Xoá thiết bị", "", ""));
+        card1.setData(new Model_Card((new javax.swing.ImageIcon("/PNG/add.png")), "Thêm thiết bị", "", ""));
+        card2.setData(new Model_Card((new javax.swing.ImageIcon("/PNG/edit.png")), "Sửa thiết bị", "", ""));
+        card3.setData(new Model_Card((new javax.swing.ImageIcon("/PNG/delete.png")), "Xoá thiết bị", "", ""));
         
         sp.setVerticalScrollBar(new ScrollBar());
         

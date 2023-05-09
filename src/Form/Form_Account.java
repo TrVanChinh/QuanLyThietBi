@@ -19,7 +19,7 @@ public class Form_Account extends javax.swing.JPanel {
     public Form_Account() {
         initComponents();
 
-        profile1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/avatar.png")), "Admin", "ID: 00001", "Role: Admin"));
+        profile1.setData(new Model_Card((new javax.swing.ImageIcon("/PNG/avatar.png")), "Admin", "ID: 00001", "Role: Admin"));
 
     }
 
