@@ -11,26 +11,19 @@ package model;
 public class HoaDonNhapBean {
     private String ngayNhap;
     private int soLuongNhap;
-    private String mTB;
+
 
     public HoaDonNhapBean() {
     }
 
    
 
-    public HoaDonNhapBean(String ngayNhap, int soLuongNhap, String mTB) {
+    public HoaDonNhapBean(String ngayNhap, int soLuongNhap) {
         this.ngayNhap = ngayNhap;
         this.soLuongNhap = soLuongNhap;
-        this.mTB = mTB;
+ 
     }
 
-    public String getmTB() {
-        return mTB;
-    }
-
-    public void setmTB(String mTB) {
-        this.mTB = mTB;
-    }
 
     public String getNgayNhap() {
         return ngayNhap;

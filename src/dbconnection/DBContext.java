@@ -17,7 +17,7 @@ import java.sql.Statement;
  */
 public class DBContext {
     public static Connection JDBCConnection() {
-        final String Url = "jdbc:sqlserver://DESKTOP-JADGEKH\\SQLEXPRESS01:1433;databaseName=QuanlyThietBi";
+        final String Url = "jdbc:sqlserver://DESKTOP-JADGEKH\\SQLEXPRESS01:1433;databaseName=QuanLyThietBiDienTu";
         final String user = "sa";
         final String pass = "39151111";
         try {

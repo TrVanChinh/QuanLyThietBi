@@ -16,8 +16,8 @@ public class ThongKeThu extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         QuanLyThongKeController controller = new QuanLyThongKeController();
-        controller.setDataToChart1(jpnView1);
-        controller.setDataToChart2(jpnView2);
+        controller.setDataToChart2(jpnView1);
+        controller.setDataToChart1(jpnView2);
     }
 
     /**
