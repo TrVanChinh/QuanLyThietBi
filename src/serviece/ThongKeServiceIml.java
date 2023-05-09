@@ -18,14 +18,15 @@ public class ThongKeServiceIml implements ThongKeService{
         this.thongKeDao = new ThongKeDaoImpl();
     }
     
-    @Override
-    public List<HoaDonNhapBean> getListByHoaDonNhap() {
-        return thongKeDao.getListByHoaDonNhap();
-    }
-
+   
     @Override
     public List<HoaDonXuatBean> getListByHoaDonXuat() {
         return thongKeDao.getListByHoaDonXuat();
     
     }
+     @Override
+    public List<HoaDonNhapBean> getListByHoaDonNhap() {
+        return thongKeDao.getListByHoaDonNhap();
+    }
+
 }

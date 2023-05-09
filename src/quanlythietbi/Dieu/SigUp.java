@@ -131,7 +131,7 @@ public class SigUp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    final String Url = "jdbc:sqlserver://DESKTOP-JADGEKH\\SQLEXPRESS01:1433;databaseName=QuanlyThietBi";
+    final String Url = "jdbc:sqlserver://DESKTOP-JADGEKH\\SQLEXPRESS01:1433;databaseName=QuanLyThietBiDienTu";
     final String user = "sa";
     final String password = "39151111";
     Statement st;
