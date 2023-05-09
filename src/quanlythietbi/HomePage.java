@@ -936,6 +936,7 @@ public class HomePage extends javax.swing.JFrame {
                 String sql4 = "Select mKho from kho where tenKho = '"+cbbKho.getSelectedItem()+"'";
                 String sql = "Insert into ThietBi values (?,?,?,?,?,?,?,?)";
                 
+                
                 ps1 = conn.prepareStatement(sql1);
                 ps2 = conn.prepareStatement(sql2);
                 ps3 = conn.prepareStatement(sql3);
@@ -960,24 +961,8 @@ public class HomePage extends javax.swing.JFrame {
                 ps.setString(6, txtGia.getText());    
                 ps.setString(7, mkho);
                 ps.setString(8, txtSoLuong.getText());
+                ps.executeQuery();
                 
-                StringBuffer sb = new StringBuffer();
-                String sqlCheckPK = "select mTB from ThietBi where mTB = ?";
-                ps5 = conn.prepareStatement(sqlCheckPK);
-                ps5.setString(1, mtb);
-                st = conn.createStatement();
-                rs = st.executeQuery(sqlCheckPK);
-                if (rs.next()) {
-                    sb.append("ID Course is Duplicated!");
-                }
-                if(sb.length()>0){
-                    JOptionPane.showMessageDialog(this, sb.toString(),"ERROR",JOptionPane.ERROR_MESSAGE);
-                }else{
-                    int kq_328 = ps.executeUpdate();
-                    if (kq_328 >0) {
-                        JOptionPane.showMessageDialog(this, "Add course successfully");
-                    }
-                }
             }
         } catch (Exception e) {
         }
