@@ -10,12 +10,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import jdk.jshell.execution.Util;
 /**
  *
  * @author OS
@@ -25,13 +28,22 @@ public class HomePage extends javax.swing.JFrame {
     /**
      * Creates new form HomePage
      */
-    public HomePage() {
+    
+    public HomePage() throws Exception {
         initComponents();
         jPanelCapNhatTB.setVisible(false);
         jPanelThietBi.setVisible(true);
         jPanelThemTB.setVisible(false);
+        updateComboboxLoaiTB();
+        updateComboboxTH();
+        updateComboboxKho();
+        addComboboxLoaiTB();
+        addComboboxTH();
+        addComboboxKho();
+        
     }
     
+    private String data;
     Connection conn;
     Statement st;
     ResultSet rs;
@@ -77,6 +89,133 @@ public class HomePage extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
+    public void updateComboboxLoaiTB()throws Exception{
+        DBContext db = new DBContext();
+        conn = db.getConnection();
+        String sql = "SELECT * from LoaiThietBi";
+       
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                cboCapNhap_LoaiThietBi.addItem(rs.getString("tenLTB"));
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public void updateComboboxTH()throws Exception{
+        DBContext db = new DBContext();
+        conn = db.getConnection();
+        String sql = "SELECT * from ThuongHieu";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                cboCapNhap_ThuongHieu.addItem(rs.getString("tenLTH"));
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    
+    public void updateComboboxKho()throws Exception{
+        DBContext db = new DBContext();
+        conn = db.getConnection();
+        String sql = "SELECT * from kho";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                cboCapNhap_Kho.addItem(rs.getString("tenKho"));
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public void addComboboxLoaiTB()throws Exception{
+        DBContext db = new DBContext();
+        conn = db.getConnection();
+        String sql = "SELECT * from LoaiThietBi";
+       
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                cbbLoaiThietBi.addItem(rs.getString("tenLTB"));
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public void addComboboxTH()throws Exception{
+        DBContext db = new DBContext();
+        conn = db.getConnection();
+        String sql = "SELECT * from ThuongHieu";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                cbbThuongHieu.addItem(rs.getString("tenLTH"));
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    
+    public void addComboboxKho()throws Exception{
+        DBContext db = new DBContext();
+        conn = db.getConnection();
+        String sql = "SELECT * from kho";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                cbbKho.addItem(rs.getString("tenKho"));
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    private void showDataUpdateForm(String idc)throws Exception{
+        try {
+            DBContext db = new DBContext();
+            conn = db.getConnection();
+            //String sql1 = "SELECT * FROM ThietBi where mTB = '" + idc + "'";
+            String sql = "select  *\n" +
+                            "from ThietBi as tb\n" +
+                            "inner join LoaiThietBi as ltb\n" +
+                            "	on tb.mLTB = ltb.mLTB\n" +
+                            "inner join kho as k \n" +
+                            "	on tb.mKho = k.mKho\n" +
+                            "inner join ThuongHieu as th\n" +
+                            "	on tb.mTH = th.mTH\n" +
+                            "where tb.mTB = '" + idc + "'" ;
+            
+            PreparedStatement ps = conn.prepareStatement(sql);
+            
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                txtCapNhat_TenThietBi.setText(rs.getString("tenTB"));
+                txtCapNhat_SoLuong.setText(rs.getString("soLuong"));
+                txtCapNhat_Gia.setText(rs.getString("giaNhap"));
+                txtCapNhat_DonViTinh.setText(rs.getString("dvTinh"));
+                txtCapNhat_TinhTrang.setText(rs.getString("tinhTrang"));
+                cboCapNhap_LoaiThietBi.setSelectedItem(rs.getString("tenLTB"));
+                cboCapNhap_ThuongHieu.setSelectedItem(rs.getString("tenLTH"));
+                cboCapNhap_Kho.setSelectedItem(rs.getString("tenKho"));
+            }
+            conn.close();
+        } catch (SQLException ex) {
+        }
+    }
     
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -112,7 +251,6 @@ public class HomePage extends javax.swing.JFrame {
         jLabel37 = new javax.swing.JLabel();
         cboCapNhap_LoaiThietBi = new javax.swing.JComboBox<>();
         jLabel38 = new javax.swing.JLabel();
-        cboCapNhap_NhaCungCap = new javax.swing.JComboBox<>();
         jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
@@ -125,17 +263,19 @@ public class HomePage extends javax.swing.JFrame {
         txtCapNhat_SoLuong = new javax.swing.JTextField();
         txtCapNhat_Gia = new javax.swing.JTextField();
         jLabelTroVe = new javax.swing.JLabel();
+        txtCapNhat_DonViTinh = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtCapNhat_TinhTrang = new javax.swing.JTextField();
         jPanelThemTB = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         txtTenThietBi = new javax.swing.JTextField();
         txtSoLuong = new javax.swing.JTextField();
         txtGia = new javax.swing.JTextField();
-        cboThuongHieu = new javax.swing.JComboBox<>();
+        cbbThuongHieu = new javax.swing.JComboBox<>();
         jLabel30 = new javax.swing.JLabel();
         cbbLoaiThietBi = new javax.swing.JComboBox<>();
         jLabel31 = new javax.swing.JLabel();
-        cbbNhaCungCap = new javax.swing.JComboBox<>();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
@@ -143,6 +283,9 @@ public class HomePage extends javax.swing.JFrame {
         jLabel36 = new javax.swing.JLabel();
         btnThemThietBi = new javax.swing.JButton();
         jLabelTroVe1 = new javax.swing.JLabel();
+        txtDonViTinh = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtHSD = new javax.swing.JTextField();
 
         jLabel3.setText("jLabel3");
 
@@ -377,16 +520,16 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(26, 26, 26))
         );
 
-        cboCapNhap_ThuongHieu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel37.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel37.setText("CẬP NHẬT THIẾT BỊ");
 
-        cboCapNhap_LoaiThietBi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboCapNhap_LoaiThietBi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboCapNhap_LoaiThietBiActionPerformed(evt);
+            }
+        });
 
         jLabel38.setText("Tên thiết bị:");
-
-        cboCapNhap_NhaCungCap.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel39.setText("Thương hiệu:");
 
@@ -394,16 +537,19 @@ public class HomePage extends javax.swing.JFrame {
 
         jLabel41.setText("Loại thiết bi:");
 
-        cboCapNhap_Kho.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel42.setText("Số lượng:");
 
         btnCapNhapThietBi.setBackground(new java.awt.Color(0, 153, 153));
         btnCapNhapThietBi.setText("Lưu");
+        btnCapNhapThietBi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCapNhapThietBiActionPerformed(evt);
+            }
+        });
 
         jLabel43.setText("Giá:");
 
-        jLabel44.setText("Nhà cung cấp:");
+        jLabel44.setText("Đơn vị tính:");
 
         jLabelTroVe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Undo-icon.png"))); // NOI18N
         jLabelTroVe.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -412,35 +558,12 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Tình trạng:");
+
         javax.swing.GroupLayout jPanelCapNhatTBLayout = new javax.swing.GroupLayout(jPanelCapNhatTB);
         jPanelCapNhatTB.setLayout(jPanelCapNhatTBLayout);
         jPanelCapNhatTBLayout.setHorizontalGroup(
             jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelCapNhatTBLayout.createSequentialGroup()
-                .addGap(135, 135, 135)
-                .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
-                    .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(cboCapNhap_Kho, 0, 120, Short.MAX_VALUE)
-                    .addComponent(txtCapNhat_TenThietBi)
-                    .addComponent(cboCapNhap_LoaiThietBi, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cboCapNhap_NhaCungCap, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel39, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel42, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel43, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(30, 30, 30)
-                .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtCapNhat_SoLuong)
-                    .addComponent(txtCapNhat_Gia)
-                    .addComponent(cboCapNhap_ThuongHieu, 0, 120, Short.MAX_VALUE))
-                .addGap(147, 147, 147))
             .addGroup(jPanelCapNhatTBLayout.createSequentialGroup()
                 .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelCapNhatTBLayout.createSequentialGroup()
@@ -452,6 +575,33 @@ public class HomePage extends javax.swing.JFrame {
                         .addGap(339, 339, 339)
                         .addComponent(btnCapNhapThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(321, Short.MAX_VALUE))
+            .addGroup(jPanelCapNhatTBLayout.createSequentialGroup()
+                .addGap(135, 135, 135)
+                .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
+                    .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtCapNhat_DonViTinh)
+                    .addComponent(cboCapNhap_Kho, javax.swing.GroupLayout.Alignment.TRAILING, 0, 120, Short.MAX_VALUE)
+                    .addComponent(txtCapNhat_TenThietBi, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cboCapNhap_LoaiThietBi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel39, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel42, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel43, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtCapNhat_SoLuong)
+                    .addComponent(txtCapNhat_Gia)
+                    .addComponent(cboCapNhap_ThuongHieu, 0, 120, Short.MAX_VALUE)
+                    .addComponent(txtCapNhat_TinhTrang, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(147, 147, 147))
         );
         jPanelCapNhatTBLayout.setVerticalGroup(
             jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -475,35 +625,32 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(jLabel42)
                     .addComponent(txtCapNhat_SoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboCapNhap_LoaiThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(31, 31, 31)
                 .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel43)
                     .addComponent(jLabel44)
                     .addComponent(txtCapNhat_Gia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboCapNhap_NhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
+                    .addComponent(txtCapNhat_DonViTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
                 .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel40)
-                    .addComponent(cboCapNhap_Kho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelCapNhatTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cboCapNhap_Kho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtCapNhat_TinhTrang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(46, 46, 46)
                 .addComponent(btnCapNhapThietBi)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         jLabel28.setText("Giá:");
 
-        jLabel29.setText("Nhà cung cấp:");
-
-        cboThuongHieu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel29.setText("Đơn vị tính");
 
         jLabel30.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel30.setText("THÊM THIẾT BỊ MỚI");
 
-        cbbLoaiThietBi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel31.setText("Tên thiết bị:");
-
-        cbbNhaCungCap.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel32.setText("Thương hiệu:");
 
@@ -511,12 +658,15 @@ public class HomePage extends javax.swing.JFrame {
 
         jLabel35.setText("Loại thiết bi:");
 
-        cbbKho.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel36.setText("Số lượng:");
 
         btnThemThietBi.setBackground(new java.awt.Color(0, 153, 153));
         btnThemThietBi.setText("Thêm");
+        btnThemThietBi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemThietBiActionPerformed(evt);
+            }
+        });
 
         jLabelTroVe1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Undo-icon.png"))); // NOI18N
         jLabelTroVe1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -524,6 +674,8 @@ public class HomePage extends javax.swing.JFrame {
                 jLabelTroVe1MouseClicked(evt);
             }
         });
+
+        jLabel5.setText("HSD:");
 
         javax.swing.GroupLayout jPanelThemTBLayout = new javax.swing.GroupLayout(jPanelThemTB);
         jPanelThemTB.setLayout(jPanelThemTBLayout);
@@ -538,32 +690,31 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(45, 45, 45)
                 .addGroup(jPanelThemTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelThemTBLayout.createSequentialGroup()
-                        .addGroup(jPanelThemTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbbLoaiThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTenThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbbNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                        .addGroup(jPanelThemTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(30, 30, 30)
-                        .addGroup(jPanelThemTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtSoLuong)
-                            .addComponent(txtGia)
-                            .addComponent(cboThuongHieu, 0, 120, Short.MAX_VALUE))
-                        .addGap(147, 147, 147))
-                    .addGroup(jPanelThemTBLayout.createSequentialGroup()
-                        .addComponent(cbbKho, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanelThemTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(cbbLoaiThietBi, 0, 120, Short.MAX_VALUE)
+                        .addComponent(txtTenThietBi, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                        .addComponent(txtDonViTinh))
+                    .addComponent(cbbKho, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelThemTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanelThemTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtSoLuong)
+                    .addComponent(txtGia)
+                    .addComponent(cbbThuongHieu, 0, 120, Short.MAX_VALUE)
+                    .addComponent(txtHSD))
+                .addGap(147, 147, 147))
             .addGroup(jPanelThemTBLayout.createSequentialGroup()
                 .addGroup(jPanelThemTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelThemTBLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabelTroVe1)
                         .addGap(252, 252, 252)
-                        .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
                     .addGroup(jPanelThemTBLayout.createSequentialGroup()
                         .addGap(339, 339, 339)
                         .addComponent(btnThemThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -581,7 +732,7 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(jLabel31)
                     .addComponent(jLabel32)
                     .addComponent(txtTenThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbbThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(jPanelThemTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel35)
@@ -593,14 +744,16 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(jLabel28)
                     .addComponent(jLabel29)
                     .addComponent(txtGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbbNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDonViTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(jPanelThemTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
-                    .addComponent(cbbKho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbbKho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtHSD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addComponent(btnThemThietBi)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         jLayeredPane_ThietBi.setLayer(jPanelThietBi, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -671,11 +824,25 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHoaDonActionPerformed
 
     private void btnCapNhapTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhapTBActionPerformed
-        jPanelCapNhatTB.setVisible(true);
-        jPanelThietBi.setVisible(false);
-        jPanelThemTB.setVisible(false);
+        if (tblThietBi.getSelectedRow()==-1) {
+            JOptionPane.showMessageDialog(this, "Please Select Video","ERROR",JOptionPane.ERROR_MESSAGE);
+        }else{
+            int position = tblThietBi.getSelectedRow();
+            data = tblThietBi.getModel().getValueAt(position, 0).toString();
+            try {
+                showDataUpdateForm(data);
+            } catch (Exception ex) {
+                Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+            }            
+         
+            jPanelCapNhatTB.setVisible(true);
+            jPanelThietBi.setVisible(false);
+            jPanelThemTB.setVisible(false);
+        }
+        
     }//GEN-LAST:event_btnCapNhapTBActionPerformed
 
+    
     private void btnThemtbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemtbActionPerformed
         jPanelThemTB.setVisible(true);
         jPanelThietBi.setVisible(false);
@@ -720,6 +887,101 @@ public class HomePage extends javax.swing.JFrame {
             Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnXoaTBActionPerformed
+    
+    private void cboCapNhap_LoaiThietBiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCapNhap_LoaiThietBiActionPerformed
+       
+    }//GEN-LAST:event_cboCapNhap_LoaiThietBiActionPerformed
+
+    private void btnCapNhapThietBiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhapThietBiActionPerformed
+        try {
+            DBContext db = new DBContext();
+            conn = db.getConnection();
+            String sql = "UPDATE ThietBi\n" +
+             "SET tenTB = ?, soLuong = ?, giaNhap = ?, dvTinh = ?, tinhTrang= ?, " +
+             "mLTB = (select mLTB from LoaiThietBi where tenLTB = ?), " +
+             "mKho = (select mKho from kho where tenKho = ?), " +
+             "mTH =  (select mTH from ThuongHieu where tenLTH = ?) " +
+             "WHERE mTB = ?";          
+            
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, txtCapNhat_TenThietBi.getText());
+            ps.setString(2, txtCapNhat_SoLuong.getText());
+            ps.setString(3, txtCapNhat_Gia.getText());
+            ps.setString(4, txtCapNhat_DonViTinh.getText());
+            ps.setString(5, txtCapNhat_TinhTrang.getText());       
+            ps.setString(6, (String) cboCapNhap_LoaiThietBi.getSelectedItem());
+            ps.setString(7, (String) cboCapNhap_Kho.getSelectedItem());
+            ps.setString(8, (String) cboCapNhap_ThuongHieu.getSelectedItem());
+            ps.setString(9, data); 
+
+            ps.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+    }//GEN-LAST:event_btnCapNhapThietBiActionPerformed
+
+    private void btnThemThietBiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemThietBiActionPerformed
+        try {
+            if(txtTenThietBi.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Please enter enough course information");
+            }else{
+                DBContext db = new DBContext();
+                conn = db.getConnection();
+                PreparedStatement ps1, ps2, ps3, ps4, ps5, ps;
+                ResultSet rs, rs1, rs2, rs3, rs4;
+                String mtb, mth, mltb, mkho;
+                String sql1 = "SELECT dbo.AUTO_IDKH()";
+                String sql2 = "Select mLTB from LoaiThietBi where tenLTB = '"+cbbLoaiThietBi.getSelectedItem()+"'";
+                String sql3 = "Select mTH from ThuongHieu where tenLTH = '"+cbbThuongHieu.getSelectedItem()+"'";
+                String sql4 = "Select mKho from kho where tenKho = '"+cbbKho.getSelectedItem()+"'";
+                String sql = "Insert into ThietBi values (?,?,?,?,?,?,?,?)";
+                
+                ps1 = conn.prepareStatement(sql1);
+                ps2 = conn.prepareStatement(sql2);
+                ps3 = conn.prepareStatement(sql3);
+                ps4 = conn.prepareStatement(sql4);
+                ps = conn.prepareStatement(sql);
+                
+                rs1 = ps1.executeQuery();
+                rs2 = ps2.executeQuery();
+                rs3 = ps3.executeQuery();
+                rs4 = ps4.executeQuery();
+                
+                mtb = rs1.getString("mTB");  
+                mltb = rs2.getString("mLTB"); 
+                mth = rs3.getString("mTH"); 
+                mkho = rs4.getString("mkho"); 
+                
+                ps.setString(1, mtb);
+                ps.setString(2, mltb);
+                ps.setString(3, mth);
+                ps.setString(4, txtTenThietBi.getText());
+                ps.setString(5, txtDonViTinh.getText());
+                ps.setString(6, txtGia.getText());    
+                ps.setString(7, mkho);
+                ps.setString(8, txtSoLuong.getText());
+                
+                StringBuffer sb = new StringBuffer();
+                String sqlCheckPK = "select mTB from ThietBi where mTB = ?";
+                ps5 = conn.prepareStatement(sqlCheckPK);
+                ps5.setString(1, mtb);
+                st = conn.createStatement();
+                rs = st.executeQuery(sqlCheckPK);
+                if (rs.next()) {
+                    sb.append("ID Course is Duplicated!");
+                }
+                if(sb.length()>0){
+                    JOptionPane.showMessageDialog(this, sb.toString(),"ERROR",JOptionPane.ERROR_MESSAGE);
+                }else{
+                    int kq_328 = ps.executeUpdate();
+                    if (kq_328 >0) {
+                        JOptionPane.showMessageDialog(this, "Add course successfully");
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btnThemThietBiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -751,7 +1013,11 @@ public class HomePage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HomePage().setVisible(true);
+                try {
+                    new HomePage().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -769,12 +1035,10 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JButton btnXoaTB;
     private javax.swing.JComboBox<String> cbbKho;
     private javax.swing.JComboBox<String> cbbLoaiThietBi;
-    private javax.swing.JComboBox<String> cbbNhaCungCap;
+    private javax.swing.JComboBox<String> cbbThuongHieu;
     private javax.swing.JComboBox<String> cboCapNhap_Kho;
     private javax.swing.JComboBox<String> cboCapNhap_LoaiThietBi;
-    private javax.swing.JComboBox<String> cboCapNhap_NhaCungCap;
     private javax.swing.JComboBox<String> cboCapNhap_ThuongHieu;
-    private javax.swing.JComboBox<String> cboThuongHieu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel28;
@@ -789,12 +1053,14 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelTroVe;
     private javax.swing.JLabel jLabelTroVe1;
     private javax.swing.JLayeredPane jLayeredPane_ThietBi;
@@ -812,10 +1078,14 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tblThietBi;
+    private javax.swing.JTextField txtCapNhat_DonViTinh;
     private javax.swing.JTextField txtCapNhat_Gia;
     private javax.swing.JTextField txtCapNhat_SoLuong;
     private javax.swing.JTextField txtCapNhat_TenThietBi;
+    private javax.swing.JTextField txtCapNhat_TinhTrang;
+    private javax.swing.JTextField txtDonViTinh;
     private javax.swing.JTextField txtGia;
+    private javax.swing.JTextField txtHSD;
     private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtTenThietBi;
     // End of variables declaration//GEN-END:variables
