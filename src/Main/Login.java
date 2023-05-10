@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Main;
 
 import java.awt.Color;
 import java.awt.Frame;
 import javax.swing.JFrame;
-
+import java.awt.Color;
+import java.awt.Font;
+import java.beans.Statement;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Anh Duc
@@ -19,10 +25,26 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        setBackground(new Color(0,0,0,0));
-        MovingPanel.initMoving(Login.this);
+     
+        setLocationRelativeTo(null);
+        addPlaceholderStyle(txtdn);
+        addPlaceholderStyle(txtpass);
     }
-
+public void init(){
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+    }
+    public void addPlaceholderStyle(JTextField textField){
+        Font font = textField.getFont();
+        font = font.deriveFont(Font.ITALIC);
+        textField.setFont(font);
+        textField.setForeground(Color.gray);
+    }
+    public void removePlaceholderStyle(JTextField textField){
+        Font font = textField.getFont();
+        font = font.deriveFont(Font.ITALIC|Font.BOLD);
+        textField.setFont(font);
+        textField.setForeground(Color.black);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,8 +58,8 @@ public class Login extends javax.swing.JFrame {
         MovingPanel = new Component.Moving();
         jLabel2 = new javax.swing.JLabel();
         panelBorder1 = new Swing.PanelBorder();
-        textField1 = new Swing.TextField();
-        passwordField1 = new Swing.PasswordField();
+        txtdn = new Swing.TextField();
+        txtpass = new Swing.PasswordField();
         Button = new Swing.PanelBorder();
         lbLogin = new javax.swing.JLabel();
         Close = new javax.swing.JLabel();
@@ -62,9 +84,9 @@ public class Login extends javax.swing.JFrame {
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
-        textField1.setLabelText("Tên đăng nhập");
+        txtdn.setLabelText("Tên đăng nhập");
 
-        passwordField1.setLabelText("Mật khẩu");
+        txtpass.setLabelText("Mật khẩu");
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -73,17 +95,17 @@ public class Login extends javax.swing.JFrame {
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(textField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(passwordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
+                    .addComponent(txtdn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtpass, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtdn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
@@ -213,10 +235,44 @@ public class Login extends javax.swing.JFrame {
         Button.setBackground(Color.WHITE);
     }//GEN-LAST:event_lbLoginMouseExited
 
+    String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        final String Url = "jdbc:sqlserver://DESKTOP-R3P0J15:1433;databaseName=QuanLyThietBiDienTu;"
+                + "IntegratedSecurity=false;Encrypt=false";
+        final String user = "sa";
+        final String pass = "123456";
+        Statement st;
+        ResultSet rs;
     private void lbLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLoginMouseClicked
-        Main main = new Main();
-        main.setVisible(true );
-        this.dispose();
+         String username = txtdn.getText();
+        String password = txtpass.getText();
+
+    if(username.equals("") || password.equals("")) {
+        JOptionPane.showMessageDialog(this, "Chưa nhập User và Password");
+    } else {
+        try {
+            Class.forName(driver);
+            Connection con = DriverManager.getConnection(Url, user, pass);
+            String sql = "select * from NguoiDung where tendangnhap = ? and matkhau =? ";//truy vấn đến sql
+            PreparedStatement ps = con.prepareCall(sql);
+            ps.setString(1, txtdn.getText());
+            ps.setString(2, txtpass.getText());
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                Main ql = new Main();
+                ql.setVisible(true);
+                this.dispose();
+                JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Đăng nhập thất bại!");
+            }
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL: " + e.getMessage());
+        }
+    }
     }//GEN-LAST:event_lbLoginMouseClicked
 
     /**
@@ -245,6 +301,7 @@ public class Login extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -262,7 +319,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbLogin;
     private Swing.PanelBorder panelBorder1;
-    private Swing.PasswordField passwordField1;
-    private Swing.TextField textField1;
+    private Swing.TextField txtdn;
+    private Swing.PasswordField txtpass;
     // End of variables declaration//GEN-END:variables
 }

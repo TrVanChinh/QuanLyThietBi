@@ -4,7 +4,7 @@ package Main;
 import Event.EventClose;
 import Event.EventMenuSelected;
 import Form.Form_PN;
-import Form.Form4;
+import Form.Form_PX;
 import Form.Form_Account;
 import Form.Form_Home;
 import Form.Form_MAccount;
@@ -44,7 +44,11 @@ public class Main extends javax.swing.JFrame {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else if (index == 4) {
-                    setForm(new Form4());
+                    try {
+                        setForm(new Form_PX());
+                    } catch (Exception ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }else if (index == 5) {
                     setForm(new Form_Account());
                     

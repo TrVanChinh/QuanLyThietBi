@@ -129,8 +129,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="textField1" max="32767" attributes="0"/>
-                          <Component id="passwordField1" pref="166" max="32767" attributes="0"/>
+                          <Component id="txtdn" max="32767" attributes="0"/>
+                          <Component id="txtpass" pref="166" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="47" max="32767" attributes="0"/>
                   </Group>
@@ -140,21 +140,21 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                      <Component id="textField1" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtdn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="passwordField1" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtpass" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="44" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="Swing.TextField" name="textField1">
+            <Component class="Swing.TextField" name="txtdn">
               <Properties>
                 <Property name="labelText" type="java.lang.String" value="T&#xea;n &#x111;&#x103;ng nh&#x1ead;p"/>
               </Properties>
             </Component>
-            <Component class="Swing.PasswordField" name="passwordField1">
+            <Component class="Swing.PasswordField" name="txtpass">
               <Properties>
                 <Property name="labelText" type="java.lang.String" value="M&#x1ead;t kh&#x1ea9;u"/>
               </Properties>

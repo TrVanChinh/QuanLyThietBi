@@ -10,11 +10,13 @@ import Model.ThietBi;
 import Swing.ScrollBar;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -42,9 +44,9 @@ public class Form_Home extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         sp.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         sp.getViewport().setBackground(Color.WHITE);
-        card1.setData(new Model_Card((new javax.swing.ImageIcon("/PNG/add.png")), "Thêm thiết bị", "", ""));
-        card2.setData(new Model_Card((new javax.swing.ImageIcon("/PNG/edit.png")), "Sửa thiết bị", "", ""));
-        card3.setData(new Model_Card((new javax.swing.ImageIcon("/PNG/delete.png")), "Xoá thiết bị", "", ""));
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/PNG/add.png")), "Thêm thiết bị", "", ""));
+        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/PNG/edit.png")), "Sửa thiết bị", "", ""));
+        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/PNG/delete.png")), "Xoá thiết bị", "", ""));
         
         sp.setVerticalScrollBar(new ScrollBar());
         
@@ -56,9 +58,12 @@ public class Form_Home extends javax.swing.JPanel {
         addComboboxLoaiTB();
         addComboboxTH();
         addComboboxKho();
+        
+        Add_mTB_TF.disable();
     }
     public void loadTable() throws Exception{
         //Add Row Table
+        table.removeAll();
         for (ThietBi tb : tbData) {          
             table.addRow(new Object[]{
                 tb.getmTB(),
@@ -71,7 +76,7 @@ public class Form_Home extends javax.swing.JPanel {
                 tb.getSoLuong()
             });
         }
-        table.removeAll();
+        
         table.repaint();
         table.validate();
     }
@@ -105,13 +110,13 @@ public class Form_Home extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        Add_TenTB_TF = new javax.swing.JTextField();
+        txtTenThietBi = new javax.swing.JTextField();
         Add_mTB_TF = new javax.swing.JTextField();
-        Add_dvTinh_TF = new javax.swing.JTextField();
-        Add_giaNhap_TF = new javax.swing.JTextField();
+        txtDonViTinh = new javax.swing.JTextField();
+        txtGia = new javax.swing.JTextField();
         Add_spHong_TF = new javax.swing.JTextField();
         Add_hsd_TF = new javax.swing.JTextField();
-        Add_soLuong_TF = new javax.swing.JTextField();
+        txtSoLuong = new javax.swing.JTextField();
         cbbThuongHieu = new Swing.ComboBoxSuggestion();
         cbbLoaiThietBi = new Swing.ComboBoxSuggestion();
         cbbKho = new Swing.ComboBoxSuggestion();
@@ -267,19 +272,20 @@ public class Form_Home extends javax.swing.JPanel {
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("Sản phẩm hỏng:");
 
-        Add_TenTB_TF.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtTenThietBi.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        Add_mTB_TF.setText("Auto");
         Add_mTB_TF.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        Add_dvTinh_TF.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtDonViTinh.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        Add_giaNhap_TF.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtGia.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         Add_spHong_TF.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         Add_hsd_TF.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        Add_soLuong_TF.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtSoLuong.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         cbbThuongHieu.setOpaque(false);
 
@@ -301,7 +307,7 @@ public class Form_Home extends javax.swing.JPanel {
                     .addComponent(jLabel9))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Add_TenTB_TF)
+                    .addComponent(txtTenThietBi)
                     .addComponent(Add_mTB_TF, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                     .addComponent(cbbThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(cbbLoaiThietBi, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
@@ -318,11 +324,11 @@ public class Form_Home extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Add_dvTinh_TF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Add_giaNhap_TF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtDonViTinh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtGia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(47, 47, 47)
-                                .addComponent(Add_soLuong_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,11 +348,11 @@ public class Form_Home extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(Add_dvTinh_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtDonViTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(Add_giaNhap_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -358,32 +364,32 @@ public class Form_Home extends javax.swing.JPanel {
                                     .addComponent(jLabel8)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(Add_soLuong_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel11))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel13)
                                     .addComponent(Add_spHong_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(Add_mTB_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Add_mTB_TF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Add_TenTB_TF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTenThietBi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbbKho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))
-                        .addGap(0, 6, Short.MAX_VALUE))
+                        .addGap(0, 14, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(Add_hsd_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(20, Short.MAX_VALUE))))
         );
 
         header.setBackground(new java.awt.Color(142, 142, 250));
@@ -421,6 +427,11 @@ public class Form_Home extends javax.swing.JPanel {
         );
 
         ButtonAdd.setBackground(new java.awt.Color(142, 142, 250));
+        ButtonAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ButtonAddMouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -440,7 +451,7 @@ public class Form_Home extends javax.swing.JPanel {
             .addGroup(ButtonAddLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jLabel3)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelBorder2Layout = new javax.swing.GroupLayout(panelBorder2);
@@ -564,7 +575,7 @@ public class Form_Home extends javax.swing.JPanel {
                             .addComponent(jLabel22))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txtCapNhat_DonViTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtCapNhat_Gia, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -744,7 +755,7 @@ public class Form_Home extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     public void showData() throws Exception {
         try {
-            table.deleteAllRow();
+            table.removeAll();
             String[] arr = { "mTB","mLTB","mTH","tenTB","dvTinh","giaNhap","mKho","soLuong"};
             DefaultTableModel model = new DefaultTableModel(arr,0) {
                 @Override//Override lại phương thức isCellEditable
@@ -758,21 +769,20 @@ public class Form_Home extends javax.swing.JPanel {
             String query = "SELECT *FROM ThietBi";
             PreparedStatement ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
-            int i = 1;
+            Vector vector = null;
             while (rs.next()) {
-                ThietBi thietBi = new ThietBi();
-                thietBi.setmTB(rs.getString("mTB"));
-                thietBi.setmLTB(rs.getString("mLTB"));
-                thietBi.setmTH(rs.getString("mTH"));
-                thietBi.setTenTB(rs.getString("tenTB"));
-                thietBi.setDvTinh(rs.getString("dvTinh"));
-                thietBi.setGiaNhap(rs.getString("giaNhap"));
-                thietBi.setmKho(rs.getString("mKho"));
-                thietBi.setSoLuong(rs.getString("soLuong"));
-                tbData.add(thietBi);
-                i++;
+                vector = new Vector();
+                vector.add(rs.getString("mTB"));
+                vector.add(rs.getString("mLTB"));
+                vector.add(rs.getString("mTH"));
+                vector.add(rs.getString("tenTB"));
+                vector.add(rs.getString("dvTinh"));
+                vector.add(rs.getString("giaNhap"));
+                vector.add(rs.getString("mKho"));
+                vector.add(rs.getString("soLuong"));
+                
+                model.addRow(vector);
             }
-            
             table.setModel(model);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -911,7 +921,11 @@ public class Form_Home extends javax.swing.JPanel {
 
     private void card2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_card2MouseClicked
         if (table.getSelectedRow()==-1) {
-            JOptionPane.showMessageDialog(this, "Please Select Video","ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Chọn thiết bị muốn thay đổi","ERROR",JOptionPane.ERROR_MESSAGE);
+            CardLayout cardLayout = (CardLayout) hidePanel.getLayout();
+            cardLayout.addLayoutComponent(panelBorder1, "1");
+            cardLayout.show(hidePanel,"1");
+        
         }else{
             int position = table.getSelectedRow();
             data = table.getModel().getValueAt(position, 0).toString();
@@ -930,7 +944,20 @@ public class Form_Home extends javax.swing.JPanel {
     }//GEN-LAST:event_card2MouseClicked
 
     private void card3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_card3MouseClicked
-        // TODO add your handling code here:
+        try {
+            DBContext db = new DBContext();
+            conn = db.getConnection();
+            int position = table.getSelectedRow();
+            String idXoa = table.getModel().getValueAt(position, 0).toString();
+            PreparedStatement comm = conn.prepareStatement("Delete ThietBi where mTB=?");
+            comm.setString(1, idXoa);
+            if(JOptionPane.showConfirmDialog(this, "Xóa thiết bị này?","Xác nhận",JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
+                comm.executeUpdate();
+            }
+            showData();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }      
     }//GEN-LAST:event_card3MouseClicked
 
     private void lbBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackMouseClicked
@@ -976,7 +1003,7 @@ public class Form_Home extends javax.swing.JPanel {
             ps.setString(8, data); 
 
             ps.execute();
-
+            showData();
             CardLayout cardLayout = (CardLayout) hidePanel.getLayout();
             cardLayout.addLayoutComponent(panelBorder1, "1");
             cardLayout.show(hidePanel,"1");
@@ -986,14 +1013,78 @@ public class Form_Home extends javax.swing.JPanel {
         
     }//GEN-LAST:event_panelBorder9MouseClicked
 
+    private void ButtonAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonAddMouseClicked
+        try {
+            if(txtTenThietBi.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Chưa có tên thiết bị");
+            }else{
+                DBContext db = new DBContext();
+                conn = db.getConnection();
+                PreparedStatement ps1, ps2, ps3, ps4, ps5, ps;
+                ResultSet rs, rs1, rs2, rs3, rs4;
+                String mtb, mth, mltb,mkho;
+                mtb = "";
+                mltb = "";
+                mth = "";
+                mkho ="";
+                String sql1 = "{? = CALL AUTO_IDTB()}";
+                String sql2 = "Select mLTB from LoaiThietBi where tenLTB = N'"+cbbLoaiThietBi.getSelectedItem()+"'";
+                String sql3 = "Select mTH from ThuongHieu where tenLTH = '"+cbbThuongHieu.getSelectedItem()+"'";
+                String sql4 = "Select mKho from kho where tenKho = '"+cbbKho.getSelectedItem()+"'";
+                String sql = "Insert into ThietBi(mTB,mLTB,mTH,tenTB,dvTinh,giaNhap,mKho,soLuong) values (?,?,?,?,?,?,?,?)";
+
+                CallableStatement stmt = conn.prepareCall(sql1);
+                stmt.registerOutParameter(1, Types.VARCHAR);
+                ps2 = conn.prepareStatement(sql2);
+                ps3 = conn.prepareStatement(sql3);
+                ps4 = conn.prepareStatement(sql4);
+                ps = conn.prepareStatement(sql);
+
+                stmt.execute();
+                rs2 = ps2.executeQuery();
+                rs3 = ps3.executeQuery();
+                rs4 = ps4.executeQuery();
+
+                mtb = stmt.getString(1);
+                if (rs2.next()) {
+                    mltb = rs2.getString("mLTB"); 
+                }
+                if (rs3.next()) {
+                    mth = rs3.getString("mTH");
+                }
+                if (rs4.next()) {
+                    mkho = rs4.getString("mKho");
+                }
+
+                ps.setString(1, mtb);
+                ps.setString(2, mltb);
+                ps.setString(3, mth);
+                ps.setString(4, txtTenThietBi.getText());
+                ps.setString(5, txtDonViTinh.getText());
+                ps.setString(6, txtGia.getText());    
+                ps.setString(7, mkho);
+                ps.setString(8, txtSoLuong.getText());
+                int result = ps.executeUpdate();
+                if (result > 0) {
+                    JOptionPane.showMessageDialog(this, "Thêm thành công");
+                }
+                showData();
+                stmt.close();
+                conn.close();
+                CardLayout cardLayout = (CardLayout) hidePanel.getLayout();
+                cardLayout.addLayoutComponent(panelBorder1, "1");
+                cardLayout.show(hidePanel,"1");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+        }
+    }//GEN-LAST:event_ButtonAddMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Add_TenTB_TF;
-    private javax.swing.JTextField Add_dvTinh_TF;
-    private javax.swing.JTextField Add_giaNhap_TF;
     private javax.swing.JTextField Add_hsd_TF;
     private javax.swing.JTextField Add_mTB_TF;
-    private javax.swing.JTextField Add_soLuong_TF;
     private javax.swing.JTextField Add_spHong_TF;
     private Swing.PanelBorder ButtonAdd;
     private Component.Card card1;
@@ -1052,5 +1143,9 @@ public class Form_Home extends javax.swing.JPanel {
     private javax.swing.JTextField txtCapNhat_Gia;
     private javax.swing.JTextField txtCapNhat_SoLuong;
     private javax.swing.JTextField txtCapNhat_TenThietBi;
+    private javax.swing.JTextField txtDonViTinh;
+    private javax.swing.JTextField txtGia;
+    private javax.swing.JTextField txtSoLuong;
+    private javax.swing.JTextField txtTenThietBi;
     // End of variables declaration//GEN-END:variables
 }
