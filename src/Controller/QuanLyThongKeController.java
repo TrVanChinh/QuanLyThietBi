@@ -42,7 +42,7 @@ public class QuanLyThongKeController {
              }
              JFreeChart chart = ChartFactory.createBarChart("Thống kê số lượng nhập".toUpperCase(), "Thời gian", "Số lượng", dataset, PlotOrientation.VERTICAL, false, true, false);
              ChartPanel chartPanel = new ChartPanel(chart);
-             chartPanel.setPreferredSize(new Dimension(jpnItem.getWidth(),300));
+             chartPanel.setPreferredSize(new Dimension(jpnItem.getWidth(),250));
              jpnItem.removeAll();
              jpnItem.setLayout(new CardLayout());
              jpnItem.add(chartPanel);
@@ -63,7 +63,7 @@ public class QuanLyThongKeController {
              }
              JFreeChart chart = ChartFactory.createBarChart("Thống kê số lượng xuất".toUpperCase(), "Thời gian", "Số lượng", dataset, PlotOrientation.VERTICAL, false, true, false);
              ChartPanel chartPanel = new ChartPanel(chart);
-             chartPanel.setPreferredSize(new Dimension(jpnItem.getWidth(),300));
+             chartPanel.setPreferredSize(new Dimension(jpnItem.getWidth(),250));
              jpnItem.removeAll();
              jpnItem.setLayout(new CardLayout());
              jpnItem.add(chartPanel);

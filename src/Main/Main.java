@@ -8,6 +8,7 @@ import Form.Form_PX;
 import Form.Form_Account;
 import Form.Form_Home;
 import Form.Form_MAccount;
+import Form.Form_Request;
 import Form.Form_Staticstic;
 import java.awt.Color;
 import java.util.logging.Level;
@@ -50,7 +51,7 @@ public class Main extends javax.swing.JFrame {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else if (index == 5) {
-                    setForm(new Form_Account());
+                    setForm(new Form_Request());
                     
                 }else if (index == 7) {
                     setForm(new Form_Account());
