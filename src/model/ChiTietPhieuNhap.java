@@ -21,9 +21,20 @@ public class ChiTietPhieuNhap {
     private String address;
     private String mail;
     private String website;
+    private String mnv;
 
     public ChiTietPhieuNhap() {
     }
+
+    public String getMnv() {
+        return mnv;
+    }
+
+    public void setMnv(String mnv) {
+        this.mnv = mnv;
+    }
+    
+    
 
     public String getId() {
         return id;
